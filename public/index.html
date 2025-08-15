@@ -1,22 +1,99 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot Elegant</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Chatbot + Crisp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f6f8;
+    }
+    header {
+      background: #0078d7;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    .container {
+      padding: 15px;
+    }
+    #log {
+      background: white;
+      border: 1px solid #ddd;
+      padding: 10px;
+      height: 300px;
+      overflow-y: auto;
+      border-radius: 6px;
+    }
+    .msg {
+      padding: 5px;
+      margin: 5px 0;
+      border-radius: 4px;
+    }
+    .user {
+      background: #d1e7dd;
+      text-align: left;
+    }
+    .bot {
+      background: #f8d7da;
+      text-align: left;
+    }
+    .system {
+      background: #e2e3e5;
+      font-style: italic;
+    }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-        <header>
-            <h2>🤖 Smart Chatbot</h2>
-        </header>
-        <div id="chat-box" class="chat-box"></div>
-        <form id="chat-form">
-            <input type="text" id="user-input" placeholder="Ketik pesan..." autocomplete="off" required>
-            <button type="submit">Kirim</button>
-        </form>
-    </div>
-    <script src="script.js"></script>
+  <header>
+    <h2>🤖 Smart Chatbot (Crisp Integration)</h2>
+  </header>
+  
+  <div class="container">
+    <h3>Log Pesan</h3>
+    <div id="log"></div>
+  </div>
+
+  <script>
+    async function logMessage(text, sender) {
+      const logBox = document.getElementById("log");
+      const msg = document.createElement("div");
+      msg.className = `msg ${sender}`;
+      msg.textContent = `[${sender}] ${text}`;
+      logBox.appendChild(msg);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    async function processCrisp() {
+      try {
+        const res = await fetch("http://localhost:3000/process-crisp");
+        const data = await res.json();
+        if (data.status === "success") {
+          logMessage(data.sent, "bot");
+        } else if (data.status === "ignored") {
+          logMessage(data.reason || "Tidak ada yang diproses", "system");
+        }
+      } catch (err) {
+        logMessage("Gagal memproses: " + err.message, "system");
+      }
+    }
+
+    setInterval(processCrisp, 2000);
+  </script>
+
+  <script type="text/javascript">
+    window.$crisp = [];
+    window.CRISP_WEBSITE_ID = "2bd940f6-2190-436e-bbb0-1d419f2dd437";
+    (function(){
+      var d = document;
+      var s = d.createElement("script");
+      s.src = "https://client.crisp.chat/l.js";
+      s.async = 1;
+      d.getElementsByTagName("head")[0].appendChild(s);
+    })();
+  </script>
 </body>
 </html>
