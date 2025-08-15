@@ -52,7 +52,7 @@ app.get("/process-crisp", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server berjalan di http://localhost:3000");
+  console.log("Server berjalan di https://chatbot-smartid-app.vercel.app/");
 });
 
 app.get("/", (req, res) => {

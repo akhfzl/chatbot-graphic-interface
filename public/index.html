@@ -69,7 +69,7 @@
 
     async function processCrisp() {
       try {
-        const res = await fetch("http://localhost:3000/process-crisp");
+        const res = await fetch("https://chatbot-smartid-app.vercel.app/process-crisp");
         const data = await res.json();
         if (data.status === "success") {
           logMessage(data.sent, "bot");
