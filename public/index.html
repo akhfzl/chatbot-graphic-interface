@@ -1,88 +1,59 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Smart Chatbot + Crisp</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f6f8;
-    }
-    header {
-      background: #0078d7;
-      color: white;
-      padding: 15px;
-      text-align: center;
-    }
-    .container {
-      padding: 15px;
-    }
-    #log {
-      background: white;
-      border: 1px solid #ddd;
-      padding: 10px;
-      height: 300px;
-      overflow-y: auto;
-      border-radius: 6px;
-    }
-    .msg {
-      padding: 5px;
-      margin: 5px 0;
-      border-radius: 4px;
-    }
-    .user {
-      background: #d1e7dd;
-      text-align: left;
-    }
-    .bot {
-      background: #f8d7da;
-      text-align: left;
-    }
-    .system {
-      background: #e2e3e5;
-      font-style: italic;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Chatbot SmartID</title>
 </head>
 <body>
-  <header>
-    <h2>🤖 Smart Chatbot (Crisp Integration)</h2>
-  </header>
-  
-  <div class="container">
-    <h3>Log Pesan</h3>
-    <div id="log"></div>
-  </div>
+  <h2>🤖 Chatbot SmartID (Crisp)</h2>
+  <div id="log"></div>
 
-  <script>
-    async function logMessage(text, sender) {
-      const logBox = document.getElementById("log");
-      const msg = document.createElement("div");
-      msg.className = `msg ${sender}`;
-      msg.textContent = `[${sender}] ${text}`;
-      logBox.appendChild(msg);
-      logBox.scrollTop = logBox.scrollHeight;
+  <!-- <script>
+    function getCookie(name) {
+      const allCookies = document.cookie; 
+      const cookiesArray = allCookies.split("; ").map(cookieStr => {
+        const [name, ...rest] = cookieStr.split("=");
+        const value = rest.join("=");
+        return { name, value };
+      });
+
+      const sessionCookies = cookiesArray.filter(c => c.value.includes(name));
+      console.log(sessionCookies)
+      return sessionCookies[0]?.value;
     }
 
     async function processCrisp() {
-      try {
-        const res = await fetch("https://chatbot-smartid-app.vercel.app/process-crisp");
-        const data = await res.json();
-        if (data.status === "success") {
-          logMessage(data.sent, "bot");
-        } else if (data.status === "ignored") {
-          logMessage(data.reason || "Tidak ada yang diproses", "system");
-        }
-      } catch (err) {
-        logMessage("Gagal memproses: " + err.message, "system");
+      const session = getCookie("session");
+      if (!session) {
+        console.log(`Ga ada session ${session}`);
+        return;
+      }
+
+      const res = await fetch(`https://chatbot-smartid.vercel.app/process-crisp?sessionId=${session}`);
+      const data = await res.json();
+      console.log('data', data);
+      console.log('status', data.status);
+
+      if (data.status === "success") {
+        logMessage(data.sent, "bot");
       }
     }
 
-    setInterval(processCrisp, 2000);
-  </script>
+    function logMessage(msg, sender) {
+      const log = document.getElementById("log");
+      const div = document.createElement("div");
+      div.textContent = `[${sender}] ${msg}`;
+      log.appendChild(div);
+    }
+
+    // Request pertama langsung dijalankan
+    processCrisp();
+
+    // Interval berikutnya baru mulai setelah 40 detik
+    setTimeout(() => {
+      setInterval(processCrisp, 40000);
+    }, 40000);
+  </script> -->
 
   <script type="text/javascript">
     window.$crisp = [];
