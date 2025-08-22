@@ -5,16 +5,16 @@ const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Endpoint untuk meneruskan request ke n8n
 app.post("/chat", async (req, res) => {
   try {
-    const response = await fetch("https://n8n.smartid.or.id/webhook/chatbot", {
+    const response = await fetch("https://n8n.smartid.or.id/webhook/chatbot-njs", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),
     });
 
     const data = await response.json();
+
     res.json(data);
   } catch (err) {
     console.error(err);
@@ -23,7 +23,7 @@ app.post("/chat", async (req, res) => {
 });
 
 app.listen(3000, () => {
-  console.log("Server berjalan di http://localhost:3000");
+  console.log(`Server berjalan`);
 });
 
 app.get("/", (req, res) => {
