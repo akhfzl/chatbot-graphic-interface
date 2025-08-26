@@ -33,6 +33,7 @@ function formatText(rawText) {
   let text = rawText;
 
   text = text.replace(/\*/g, "");
+  text = text.replace(/#+/g, "");
   text = text.replace(/(\d+)\.\s*/g, "\n$1. ");
   text = text.replace(/\n\s*-\s*/g, "\n   - ");
 
